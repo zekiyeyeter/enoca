@@ -14,6 +14,6 @@ public interface OrdersRepo extends JpaRepository<Orders,Long> {
 
     List<Orders> findAllByCustomerCustomerId(Long customerId);
 
-   List<Orders> findOrdersByCreatedAtAfter(Date date);
+   List<Orders> findOrdersByCreatedAtAfter(Date createdAt );
 
 }

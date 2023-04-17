@@ -62,8 +62,8 @@ public class OrdersController {
     public List<OrderResponse> getCustomersOrders(@RequestParam("customerId") Long customerId) {
         return ordersService.getCustomersOrders(customerId);
     }
-    @GetMapping (params = {"date"})
-    public List<Orders> getOrderListAfterDate(@RequestParam Date date) {
-        return ordersService.getOrderListAfterDate(date);
+    @GetMapping (params = {"createdAt"})
+    public List<Orders> getOrderListAfterDate(@RequestParam("created-at") Date createdAt) {
+        return ordersService.getOrderListAfterDate(createdAt);
     }
 }

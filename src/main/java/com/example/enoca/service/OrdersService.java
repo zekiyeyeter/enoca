@@ -89,8 +89,8 @@ public class OrdersService {
     }
 
 
-    public List<Orders> getOrderListAfterDate( Date date) {
-        List<Orders> ordersByCreatedAtAfter = ordersRepo.findOrdersByCreatedAtAfter(date);
+    public List<Orders> getOrderListAfterDate( Date createdAt) {
+        List<Orders> ordersByCreatedAtAfter = ordersRepo.findOrdersByCreatedAtAfter(createdAt);
         if(ordersByCreatedAtAfter.size()==0) {
             throw new ResourceNotFoundException("bu tarihten önce olan order liste bulunamadı");
         }
