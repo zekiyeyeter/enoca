@@ -10,9 +10,7 @@ import com.example.enoca.repos.OrdersRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,12 +87,17 @@ public class OrdersService {
     }
 
 
-    public List<Orders> getOrderListAfterDate( Date createdAt) {
-        List<Orders> ordersByCreatedAtAfter = ordersRepo.findOrdersByCreatedAtAfter(createdAt);
-        if(ordersByCreatedAtAfter.size()==0) {
-            throw new ResourceNotFoundException("bu tarihten önce olan order liste bulunamadı");
+    public List<OrderResponse> getOrderListAfterDate(Date createdAt) {
+
+        if (createdAt == null) {
+            throw new InvalidRequestException("Invalid request. (date)");
         }
-        return ordersByCreatedAtAfter;
+
+        List<Orders> ordersList = ordersRepo.findAllByCreatedAtAfter(createdAt);
+        if (ordersList.size() == 0) {
+            throw new ResourceNotFoundException("There is no order after this date.");
         }
+        return ordersList.stream().map(order -> orderMapper.entityToResponse(order)).collect(Collectors.toList());
+    }
     }
 

@@ -1,10 +1,11 @@
 package com.example.enoca.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -19,12 +20,13 @@ public class Orders {
     private Long id;
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     private double totalPrice;
 
     @ManyToOne
     @JoinColumn(name="customer_id",referencedColumnName = "customerId", nullable=false)
+    @JsonIgnore
     private Customer customer;
 
 }

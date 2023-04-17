@@ -4,7 +4,7 @@ package com.example.enoca.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,8 +22,8 @@ public class Customer {
 
     private int age;
 
-    @OneToMany(mappedBy="customer")
+    @OneToMany(mappedBy="customer", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private transient Set<Orders> orders;
+    private List<Orders> orders;
 
 }

@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @AllArgsConstructor
-public class OrderResponse {
-    private Long id;
-    private double totalPrice;
-    private Date createdAt;
+public class CustomerUpdateRequest {
+
+
+    private String name;
+    private int age;
 }

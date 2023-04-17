@@ -13,7 +13,6 @@ import java.util.List;
 public interface OrdersRepo extends JpaRepository<Orders,Long> {
 
     List<Orders> findAllByCustomerCustomerId(Long customerId);
-
-   List<Orders> findOrdersByCreatedAtAfter(Date createdAt );
+    List<Orders> findAllByCreatedAtAfter(Date createdAt );
 
 }

@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class OrderResponse {
-    private Long id;
-    private double totalPrice;
-    private Date createdAt;
+public class CustomerSearchResponse {
+
+    private Long customerId;
+    private List<Long> ordersId;
 }

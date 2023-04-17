@@ -1,7 +1,6 @@
 package com.example.enoca.service;
 
-import com.example.enoca.dto.CustomerRequest;
-import com.example.enoca.dto.CustomerResponse;
+import com.example.enoca.dto.*;
 import com.example.enoca.entity.Customer;
 import com.example.enoca.exception.InvalidRequestException;
 import com.example.enoca.exception.ResourceNotFoundException;
@@ -53,26 +52,42 @@ public class CustomerService {
         return String.format("Customer with id %s is removed", customerId);
     }
 
-    public CustomerResponse saveCustomer(CustomerRequest customerRequest) {
-        if (customerRequest == null) {
+    public CustomerResponse saveCustomer(CustomerCreateRequest customerCreateRequest) {
+        if (customerCreateRequest == null) {
             throw new InvalidRequestException("Invalid create request.");
         }
-        Customer customer = customerMapper.requestToEntity(new Customer(), customerRequest);
+        Customer customer = customerMapper.createRequestToEntity(new Customer(), customerCreateRequest);
         Customer savedCustomer = customerRepo.save(customer);
         return customerMapper.entityToResponse(savedCustomer);
     }
 
-    public CustomerResponse updateCustomer(CustomerRequest customerRequest, Long customerId) {
-        if (customerRequest == null || customerId == null) {
+    public CustomerResponse updateCustomer(CustomerUpdateRequest customerUpdateRequest, Long customerId) {
+        if (customerUpdateRequest == null || customerId == null) {
             throw new InvalidRequestException("Invalid update request.");
         }
 
         Customer customer = findOneCustomer(customerId); // found customer in db
-        Customer updatedCustomer = customerMapper.requestToEntity(customer, customerRequest); // fill customers from
+        Customer updatedCustomer = customerMapper.updateRequestToEntity(customer, customerUpdateRequest); // fill customers from
         Customer savedCustomer = customerRepo.save(updatedCustomer); //save filled customer to db.
 
         return customerMapper.entityToResponse(savedCustomer); // map saved customer to response
     }
 
+    public List<CustomerResponse> findAllByOrdersEmpty() {
+        List<Customer> customersWithNoOrder = customerRepo.findAllByOrdersEmpty();
+        return customersWithNoOrder.stream().map(
+                customer -> customerMapper.entityToResponse(customer)).collect(Collectors.toList());
+    }
+
+    public List<CustomerSearchResponse> searchForCustomer(String search) {
+        List<Customer> customers = customerRepo.searchForCustomer(search);
+        if (customers.size() == 0) {
+            throw new ResourceNotFoundException("There is no such customer found.");
+        }
+        List<CustomerSearchResponse> customerSearchResponses = customers.stream().map(customer ->
+                customerMapper.entityToSearchResponse(customer)).collect(Collectors.toList());
+
+        return customerSearchResponses;
+    }
 
 }

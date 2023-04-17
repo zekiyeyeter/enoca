@@ -1,7 +1,6 @@
 package com.example.enoca.mapper;
 
-import com.example.enoca.dto.CustomerRequest;
-import com.example.enoca.dto.CustomerResponse;
+import com.example.enoca.dto.*;
 import com.example.enoca.entity.Customer;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +8,13 @@ import org.springframework.stereotype.Component;
 public interface CustomerMapper {
 
 
-    Customer requestToEntity(Customer target,CustomerRequest source);
+    Customer createRequestToEntity(Customer target, CustomerCreateRequest source);
+    Customer updateRequestToEntity(Customer target, CustomerUpdateRequest source);
 
     CustomerResponse entityToResponse(Customer customer);
+
+    CustomerSearchResponse entityToSearchResponse(Customer customer);
+
+
 
 }

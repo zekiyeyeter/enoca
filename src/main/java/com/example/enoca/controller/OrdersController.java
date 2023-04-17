@@ -2,18 +2,16 @@ package com.example.enoca.controller;
 
 import com.example.enoca.dto.OrderRequest;
 import com.example.enoca.dto.OrderResponse;
-import com.example.enoca.dto.OrderWithDateRequest;
 import com.example.enoca.entity.Orders;
 import com.example.enoca.mapper.OrderMapper;
 import com.example.enoca.service.OrdersService;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.util.Date;
-import java.util.GregorianCalendar;
+
 import java.util.List;
 
 @RestController
@@ -62,8 +60,8 @@ public class OrdersController {
     public List<OrderResponse> getCustomersOrders(@RequestParam("customerId") Long customerId) {
         return ordersService.getCustomersOrders(customerId);
     }
-    @GetMapping (params = {"createdAt"})
-    public List<Orders> getOrderListAfterDate(@RequestParam("created-at") Date createdAt) {
+    @GetMapping (params = {"created-at"})
+    public List<OrderResponse> getOrderListAfterDate(@RequestParam("created-at")@DateTimeFormat(pattern="dd-MM-yyyy") Date createdAt) {
         return ordersService.getOrderListAfterDate(createdAt);
     }
 }

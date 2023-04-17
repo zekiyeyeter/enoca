@@ -1,7 +1,9 @@
 package com.example.enoca.controller;
 
-import com.example.enoca.dto.CustomerRequest;
+import com.example.enoca.dto.CustomerCreateRequest;
 import com.example.enoca.dto.CustomerResponse;
+import com.example.enoca.dto.CustomerSearchResponse;
+import com.example.enoca.dto.CustomerUpdateRequest;
 import com.example.enoca.mapper.CustomerMapper;
 import com.example.enoca.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -34,14 +36,25 @@ public class CustomerController {
     }
 
     @PostMapping
-    public CustomerResponse saveCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
-        return customerService.saveCustomer(customerRequest);
+    public CustomerResponse saveCustomer(@RequestBody @Valid CustomerCreateRequest customerCreateRequest) {
+        return customerService.saveCustomer(customerCreateRequest);
     }
 
     @PutMapping("{customerId}")
-    public CustomerResponse updateCustomer(@RequestBody @Valid CustomerRequest customerRequest,@PathVariable Long customerId) {
-        return customerService.updateCustomer(customerRequest, customerId);
+    public CustomerResponse updateCustomer(@RequestBody CustomerUpdateRequest customerUpdateRequest, @PathVariable Long customerId) {
+        return customerService.updateCustomer(customerUpdateRequest, customerId);
     }
+
+    @GetMapping("/no-order")
+    public List<CustomerResponse> findAllByOrdersEmpty(){
+        return customerService.findAllByOrdersEmpty();
+    }
+
+    @GetMapping(params = {"search"})
+    public List<CustomerSearchResponse> searchForCustomer(@RequestParam String search){
+        return customerService.searchForCustomer(search);
+    }
+
 
 
 }
